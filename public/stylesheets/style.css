@@ -1,8 +1,16 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.operateTools{
+  list-style : none;
+    position : absolute;
+         top : 24px;
+       right : 24px;
+     opacity : 0;
 }
-
-a {
-  color: #00B7FF;
+.operateTools li{
+    font-size : 16px;
+  margin-left : 16px;
+       cursor : pointer;
+}
+.list-group-item:hover .operateTools{
+      opacity : 1;
+   transition : opacity .5s linear;
 }

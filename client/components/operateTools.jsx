@@ -1,24 +1,17 @@
 export default class OperateTools extends React.Component {
-    render() {
-        let ulStyle = {
-          listStyle : "none",
-           position : "absolute",
-                top : "12px",
-              right : "12px"
-        },
-        liStyle = {
-          marginLeft : "12px"
-        }
-
-        return (
-              <ul style = {ulStyle}>
-                <li style = {liStyle} className="glyphicon glyphicon-ok"/>
-                <li style = {liStyle} className="glyphicon glyphicon-repeat"/>
-                <li style = {liStyle} className="glyphicon glyphicon-pencil"/>
-                <li style = {liStyle} className="glyphicon glyphicon-trash"/>
-              </ul>
-        );
+  handleShowModal(){
+        this.props.handleShowModal(this.props.item.id)
     }
+
+  render() {
+      return (
+            <ul className = "operateTools">
+              <li className={"glyphicon "+(this.props.item.dealt?"glyphicon-repeat":"glyphicon-ok")}/>
+              <li className="glyphicon glyphicon-pencil" onClick={e => this.handleShowModal(e)}/>
+              <li className="glyphicon glyphicon-trash"/>
+            </ul>
+      );
+  }
 }
 
 

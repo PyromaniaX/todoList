@@ -1,68 +1,55 @@
-import {Modal,Popover,Button,Tooltip,OverlayTrigger} from 'react-bootstrap'
+import ReactDOM from "react-dom"
+
+import {Modal,FormGroup,ControlLabel,FormControl,Button} from 'react-bootstrap'
+
+var log = console.log.bind(this)
+
 
 export default class EditModal extends React.Component{
-  constructor(props){
-        super(props);
-        this.state = {
-          showModal: false
-        };
-    }
-
-  close() {
-    this.setState({ showModal: false });
+  handleUpdateModal(e,field){
+    let item = this.props.item||{}
+    item[field] = e.target.value
+    this.props.handleUpdateModal(item)
   }
 
-  open() {
-    this.setState({ showModal: true });
+  handleSaveModal(){
+    let item = this.props.item||{}
+    Object.assign(item,{title:this.titleRef.value,
+                       detail:this.detailRef.value
+                      })
+    this.props.handleSaveModal(item)
   }
 
   render() {
-    const popover = (
-      <Popover id="modal-popover" title="popover">
-        very popover. such engagement
-      </Popover>
-    );
-    const tooltip = (
-      <Tooltip id="modal-tooltip">
-        wow.
-      </Tooltip>
-    );
     return (
-      <div>
-        <p>Click to get the full Modal experience!</p>
-
-        <Button
-          bsStyle="primary"
-          bsSize="large"
-          onClick={e => this.open(e)}
-        >
-          Launch demo modal
-        </Button>
-
-        <Modal show={this.state.showModal} onHide={e => this.close(e)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <h4>Text in a modal</h4>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
-
-            <h4>Popover in a modal</h4>
-            <p>there is a <OverlayTrigger overlay={popover}><a href="#">popover</a></OverlayTrigger> here</p>
-
-            <h4>Tooltips in a modal</h4>
-            <p>there is a <OverlayTrigger overlay={tooltip}><a href="#">tooltip</a></OverlayTrigger> here</p>
-
-            <hr />
-
-            <h4>Overflowing text to show scroll behavior</h4>
-            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={e => this.close(e)}>Close</Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+            <Modal show={this.props.showModal} onHide={this.props.handleHideModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>{this.props.item.id?"Edit...":"Adding..."}</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <FormGroup>
+                  <ControlLabel>Title</ControlLabel>
+                  <FormControl type = "text"
+                              value = {this.props.item.title}
+                           inputRef = {ref => this.titleRef = ref}
+                           onChange = {e => this.handleUpdateModal(e,"title")}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <ControlLabel>Detail</ControlLabel>
+                  <FormControl style = {{minHeight: '200px'}}
+                      componentClass = "textarea" 
+                               value = {this.props.item.detail}
+                            inputRef = {ref => this.detailRef = ref}
+                            onChange = {e => this.handleUpdateModal(e,"detail")}
+                  />
+                </FormGroup>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button onClick={this.props.handleHideModal}>Close</Button>
+                <Button bsStyle="success" onClick={e => this.handleSaveModal(e)}>Save</Button>
+              </Modal.Footer>
+          </Modal>
     );
   }
 };
