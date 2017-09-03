@@ -17,9 +17,7 @@ export default class App extends React.Component{
         this.state = {
           showModal: false,
           modalItem: null,
-              items: [{id:"1002", title:"岑夫子", detail: "岑夫子，丹丘生，将进酒，君莫停",priority: 2, dealt: false},
-                      {id:"1003", title:"五花马", detail: "五花马，千金裘，呼儿将出换美酒",priority: 3, dealt: false},
-                     ]
+              items: []
         };
         this.daoQuery()
     }
@@ -50,7 +48,6 @@ export default class App extends React.Component{
 
   handleSaveModal(){
     let item = this.state.modalItem
-
     if(!item.title||!item.detail){
       //TODO msgTiptop
       alert("not null")
